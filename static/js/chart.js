@@ -1,8 +1,8 @@
 
-var data = ;
+var datalocation = "static/data/main.csv";
 
 
-d3.csv(data,function (data){
+d3.csv(datalocation,function (data){
 
     var listStates = ["AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
     var selectorInfo = [];
@@ -213,11 +213,8 @@ d3.csv(data,function (data){
 
         // parse data to get hour of each accident and increase count of y value
         stateData.forEach(Obj=>{
-            var datetimestring = Obj.Start_Time.split(" ");
-            datetimestring = datetimestring[1].split(":");
-            var time = parseInt(datetimestring[0]);
 
-            yValues[time] += 1;
+            yValues[Obj.Hour] += 1;
         });
 
         return [xValues,yValues];
@@ -247,4 +244,4 @@ d3.csv(data,function (data){
 
 
 
-}});
+});
