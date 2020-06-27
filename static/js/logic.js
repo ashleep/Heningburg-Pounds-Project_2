@@ -45,9 +45,9 @@ function createMap(marker2016, marker2017, marker2018) {
 
 
 // Assemble API query URL
-var file1 = "data/main2016.csv";
-var file2 = "data/main2017.csv";
-var file3 = "data/main2018.csv";
+var file1 = "static/data/short2016.csv";
+var file2 = "static/data/short2017.csv";
+var file3 = "static/data/short2018.csv";
 // var file4 = "data/main2019.csv";
 
 d3.queue()
@@ -134,5 +134,17 @@ d3.queue()
       console.log(data3[0]);
       createMap(markers1,markers2,markers3);
     }
-});
+  });
 
+// d3.queue()
+//   .defer(d3.csv, file1)
+//   .defer(d3.csv, file2)
+//   .defer(d3.csv, file3)
+//   .await(function(error, data1, data2, data3) {
+//     if (error) {
+//         console.error('Oh dear, something went wrong: ' + error);
+//     }
+//     else {
+//       // DO STUFF
+//     }
+//   });
