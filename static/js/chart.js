@@ -1,25 +1,27 @@
 
-d3.csv("static/data/Test_Data.csv",function(data) {
+var data = ;
 
-    var listStates = [];
 
+d3.csv(data,function (data){
+
+    var listStates = ["AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"];
     var selectorInfo = [];
-    
-    console.log(data);
 
+
+    // create state and city list from all data
     data.forEach(element => {
 
         // test to see if element is already an object in the array
         // if found, append City to cityName
         if(selectorInfo.some(stateObj => stateObj.stateName == element.State)){
-            
+                
             var cityList = selectorInfo.find(stateObj => stateObj.stateName == element.State).cityName
 
             // add City to cityName object array if not already there
             if(!(cityList.some(cityElm => cityElm == element.City))){
 
                 selectorInfo.find(stateObj => stateObj.stateName == element.State).cityName.push(element.City);
-            
+                
             }
         }
 
@@ -30,85 +32,112 @@ d3.csv("static/data/Test_Data.csv",function(data) {
                 "cityName": [element.City]
                 }
             );
-    
-            listStates.push(element.State);
+
         };
 
     });
     
-    listStates.sort();
-    
 
+    init();
 
-    // initialize selector drop downs
+    //define change to Year
+    d3.selectAll("#selDatasetYEARLEFT").on('change', optionChangedYEARLEFT);
+
+    function optionChangedYEARLEFT() {
+        //select dropdown
+        // var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
         
-    var selectState_list = d3.select("#selDatasetSTATE");
-    listStates.forEach(Object=>{
-        var option = selectState_list.append("option");
-        option.text(Object);
+        // console.log(yearDrop);
 
-    })
+        var changedStateData = formatDataState();
+        console.log(changedStateData);
 
-    var selectYear_list = d3.select("#selDatasetYEAR");
-    //********edit to hold all years needed
-    var option = selectYear_list.append("option");
-    option.text("2016");
-    var option = selectYear_list.append("option");
-    option.text("2017");
-    var option = selectYear_list.append("option");
-    option.text("2018");
+        Plotly.restyle("chartLeft", "x", [changedStateData[0]]);
+        Plotly.restyle("chartLeft", "y", [changedStateData[1]]);
+
+
+    };
+
+
 
     //define change to State
     d3.selectAll("#selDatasetSTATE").on('change', optionChangedSTATE);
 
 
     function optionChangedSTATE() {
-        
-        var selectCity_list = d3.select("#selDatasetCITY");
-        selectCity_list.remove();
-        var selectCity_list = d3.select("#selDatasetCITYTEXT");
-        selectCity_list.remove();
 
         //select dropdown
-        var dropdownMenu = d3.select("#selDatasetSTATE").node().value;
+        var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
 
-        // assign dropdown to variable
-        var value = dropdownMenu;
+        var stateDrop = d3.select("#selDatasetSTATE").node().value;
 
         // change graph to state data selected
-        var changedStateData = formatDataState(value);
+        var changedStateData = formatDataState();
         console.log(changedStateData);
         Plotly.restyle("chartLeft", "x", [changedStateData[0]]);
         Plotly.restyle("chartLeft", "y", [changedStateData[1]]);
 
-        //add a city selector and populate with seleced states' cities
-        var leftSelector_list = d3.select("#citySelector");
-        var option1 = leftSelector_list.append("h5");
-        option1.text(`City: `);
-        option1.attr("id","selDatasetCITYTEXT");
-        var option1 = leftSelector_list.append("select");
-        option1.attr("id","selDatasetCITY");
-
-        var cityList = selectorInfo.find(stateObj => stateObj.stateName == value).cityName.sort();
+        var cityList = selectorInfo.find(stateObj => stateObj.stateName == stateDrop).cityName.sort();
 
         var selectCity_list = d3.select("#selDatasetCITY");
-        selectCity_list.html("");
+        selectCity_list.html("<option></option>");
 
         cityList.forEach(Object=>{
             var option = selectCity_list.append("option");
             option.text(Object);
 
+        });   
+   };
+
+   d3.selectAll("#selDatasetCITY").on('change', optionChangedCITY);
+
+   function optionChangedCITY() {
+        var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
+
+        var stateDrop = d3.select("#selDatasetSTATE").node().value;
+        var cityDrop = d3.select("#selDatasetCITY").node().value;
+
+        var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
+
+        // filter data for state
+        var stateData = dataByYear.filter(accidentObj => accidentObj.State === stateDrop);
+
+        //filter data for city
+        var cityData = stateData.filter(accidentObj => accidentObj.City === cityDrop);
+
+        // initialize data to zeros
+        //var xValues = ["12a","1a", "2a", "3a","4a","5a", "6a", "7a","8a","9a", "10a", "11a","12p","1p", "2p", "3p","4p","5p", "6p", "7p","8p","9p", "10p", "11p"]
+        var yValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+        // parse data to get hour of each accident and increase count of y value
+        cityData.forEach(Obj=>{
+            var datetimestring = Obj.Start_Time.split(" ");
+            datetimestring = datetimestring[1].split(":");
+            var time = parseInt(datetimestring[0]);
+
+            yValues[time] += 1;
         });
 
-        //*******place holder for city refined plot update
-
+        Plotly.restyle("chartLeft", "y", [yValues]);
 
    };
 
+   //define change to Right Year dropdown
+   d3.selectAll("#selDatasetYEAR").on('change', optionChangedYEAR);
+
+   function optionChangedYEAR() {
+
+        var yValues = formatDataYear();
+
+        Plotly.restyle("chartRight", "y", [yValues]);
+   };
+
+
     function init(){
 
+
         // initialize to AL since it is first in the alphabet
-        var dataArray = formatDataState("AL");
+        var dataArray = formatDataState();
 
         var trace = {
             type: "scatter",
@@ -135,18 +164,48 @@ d3.csv("static/data/Test_Data.csv",function(data) {
 
         Plotly.newPlot("chartLeft", [trace], layout);
 
-        // initialize to 2016 since its first on the list
 
 
+        var dataArray2 = formatDataYear();
 
+        var trace2 = {
+            type: "bar",
+            x: listStates,
+            y: dataArray2,
+        };
+
+        var layout2 = {
+            xaxis: {
+              title: {
+                text: 'State'
+              },
+            },
+            yaxis: {
+              title: {
+                text: 'Count of Accidents'
+              }
+            }
+          };
+
+        Plotly.newPlot("chartRight", [trace2], layout2);     
 
     };
 
     // create function to return cleaned data on state choice
-    function formatDataState(stateVar){
+    function formatDataState(){
+
+        var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
+
+        var stateDrop = d3.select("#selDatasetSTATE").node().value;
+        console.log(yearDrop);
+        console.log(stateDrop);
+
+        var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
+
+    
         
         // filter data for state
-        var stateData = data.filter(accidentObj => accidentObj.State === stateVar);
+        var stateData = dataByYear.filter(accidentObj => accidentObj.State === stateDrop);
 
         // initialize data to zeros
         var xValues = ["12a","1a", "2a", "3a","4a","5a", "6a", "7a","8a","9a", "10a", "11a","12p","1p", "2p", "3p","4p","5p", "6p", "7p","8p","9p", "10p", "11p"]
@@ -161,33 +220,31 @@ d3.csv("static/data/Test_Data.csv",function(data) {
             yValues[time] += 1;
         });
 
-        return [xValues,yValues,stateVar];
+        return [xValues,yValues];
 
     };
 
-    function formatDataYear(yearVar){
+    function formatDataYear(){
+
+        var yearDrop = d3.select("#selDatasetYEAR").node().value;
+
+        var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
+
+        var yValues = [];
 
 
+        listStates.forEach(element=>{
+            
+            var numAccidents = dataByYear.filter(accidentObj => accidentObj.State === element).length;
 
-        var xValue = ["AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "FL", "GA", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "MD", "ME", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "TN", "TX", "UT", "VA", "VT", "WA", "WI", "WV", "WY"]
+            yValues.push(numAccidents);
 
+        });
 
+        return yValues;
 
     };
 
-    // call init
-    init();
-
-    
 
 
-
-
-
-
-
-
-
-
-
-});
+}});
