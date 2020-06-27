@@ -23,35 +23,108 @@
   <div class="container">
     <!-- map row -->
     <div class = "row">
-      <div class="col-md-12">
+      <div class="col-lg-12">
         <div id="map"></div>
       </div>
     </div>
 
     <!-- chart row -->
     <div class = "row">
-      <div class="col-md-2">
-        <div class="well" id="leftSelector">
-          <h5>State:</h5>
-          <select id="selDatasetSTATE" onchange="optionChangedSTATE(this.value)"></select>
-        </div>
-      </div>
-      <div class="col-md-2">
-        <div class="well" id="citySelector"></div>
-      </div>
-      <div class="col-md-2">
-        <div class="well" id="dateSelector"> </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
+      <div class = "well col-lg-6">
+
+        <div class="col-lg-2">
           <h5>Year:</h5>
-          <select id="selDatasetYEAR" onchange="optionChangedYEAR(this.value)"></select>
+          <select id="selDatasetYEARLEFT" onchange="optionChangedYEARLEFT(this.value)">
+            <option>2016</option>
+            <option>2017</option>
+            <option>2018</option>
+          </select>
+        </div>
+    
+        <div class="col-lg-2">
+          <div id="leftSelector">
+            <h5>State:</h5>
+            <select id="selDatasetSTATE" onchange="optionChangedSTATE(this.value)">
+              <option>AL</option>
+              <option>AR</option>
+              <option>AZ</option>
+              <option>CA</option>
+              <option>CO</option>
+              <option>CT</option>
+              <option>DC</option>
+              <option>DE</option>
+              <option>FL</option>
+              <option>GA</option>
+              <option>IA</option>
+              <option>ID</option>
+              <option>IL</option>
+              <option>IN</option>
+              <option>KS</option>
+              <option>KY</option>
+              <option>LA</option>
+              <option>MA</option>
+              <option>MD</option>
+              <option>ME</option>
+              <option>MI</option>
+              <option>MN</option>
+              <option>MO</option>
+              <option>MS</option>
+              <option>MT</option>
+              <option>NC</option>
+              <option>ND</option>
+              <option>NE</option>
+              <option>NH</option>
+              <option>NJ</option>
+              <option>NM</option>
+              <option>NV</option>
+              <option>NY</option>
+              <option>OH</option>
+              <option>OK</option>
+              <option>OR</option>
+              <option>PA</option>
+              <option>RI</option>
+              <option>SC</option>
+              <option>TN</option>
+              <option>TX</option>
+              <option>UT</option>
+              <option>VA</option>
+              <option>VT</option>
+              <option>WA</option>
+              <option>WI</option>
+              <option>WV</option>
+              <option>WY</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-lg-2">
+          <div id="citySelector">
+            <h5>City:</h5>
+            <select id="selDatasetCITY" onchange="optionChangedCITY(this.value)">
+            </select>
+          </div>
+        </div>
+
+      </div>
+      
+
+      <div class = "well col-lg-6">
+        <div class="col-lg-6">
+          <h5>Year:</h5>
+          <select id="selDatasetYEAR" onchange="optionChangedYEAR(this.value)">
+            <option>2016</option>
+            <option>2017</option>
+            <option>2018</option>
+          </select>
         </div>
       </div>
-      <div class="col-md-6">
+    </div>
+
+    <div class = "row">
+      <div class="col-lg-6">
         <div id="chartLeft"></div>
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <div id="chartRight"></div>
       </div>
     </div>
@@ -70,7 +143,6 @@
 
   <!-- Our JavaScript -->
   <!-- ******EDIT****** -->
-
   <script type="text/javascript" src="static/js/chart.js"></script>
 
 
@@ -78,10 +150,6 @@
 
 
 
-<!-- 
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 </body>
 
 </html>
