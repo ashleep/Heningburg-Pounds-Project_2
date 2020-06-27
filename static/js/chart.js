@@ -44,13 +44,8 @@ d3.csv(datalocation,function (data){
     d3.selectAll("#selDatasetYEARLEFT").on('change', optionChangedYEARLEFT);
 
     function optionChangedYEARLEFT() {
-        //select dropdown
-        // var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
-        
-        // console.log(yearDrop);
-
+ 
         var changedStateData = formatDataState();
-        console.log(changedStateData);
 
         Plotly.restyle("chartLeft", "x", [changedStateData[0]]);
         Plotly.restyle("chartLeft", "y", [changedStateData[1]]);
@@ -92,8 +87,8 @@ d3.csv(datalocation,function (data){
    d3.selectAll("#selDatasetCITY").on('change', optionChangedCITY);
 
    function optionChangedCITY() {
-        var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
 
+        var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
         var stateDrop = d3.select("#selDatasetSTATE").node().value;
         var cityDrop = d3.select("#selDatasetCITY").node().value;
 
@@ -102,20 +97,21 @@ d3.csv(datalocation,function (data){
         // filter data for state
         var stateData = dataByYear.filter(accidentObj => accidentObj.State === stateDrop);
 
-        //filter data for city
-        var cityData = stateData.filter(accidentObj => accidentObj.City === cityDrop);
+        if(cityDrop === ""){
+            var cityData = stateData;
+        }
+        else{
+            //filter data for city
+            var cityData = stateData.filter(accidentObj => accidentObj.City === cityDrop);
+        }
 
         // initialize data to zeros
-        //var xValues = ["12a","1a", "2a", "3a","4a","5a", "6a", "7a","8a","9a", "10a", "11a","12p","1p", "2p", "3p","4p","5p", "6p", "7p","8p","9p", "10p", "11p"]
         var yValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
         // parse data to get hour of each accident and increase count of y value
         cityData.forEach(Obj=>{
-            var datetimestring = Obj.Start_Time.split(" ");
-            datetimestring = datetimestring[1].split(":");
-            var time = parseInt(datetimestring[0]);
-
-            yValues[time] += 1;
+ 
+            yValues[Obj.Hour] += 1;
         });
 
         Plotly.restyle("chartLeft", "y", [yValues]);
@@ -197,11 +193,8 @@ d3.csv(datalocation,function (data){
         var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
 
         var stateDrop = d3.select("#selDatasetSTATE").node().value;
-        console.log(yearDrop);
-        console.log(stateDrop);
 
         var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
-
     
         
         // filter data for state
