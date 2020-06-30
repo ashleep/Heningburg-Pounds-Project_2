@@ -38,27 +38,28 @@
 
     <div class="container">
       <div class = "col-md-10">
-        <h2>Heningburg and Pounds Dashboard</h2>
+        <h2>US Vehicle Accidents Dashboard</h2>
+        <p>By Vincent Heningburg and Ashlee Pounds</p>
       </div>
       
       <div class = "col-md-2">
         <button type="button" class="btn btn-secondary">Click to save PDF</button>
       </div>
-
     </div>
    
     <div class="container">
+      <hr>
       <div class = "row">
-        <div class="col-md-10">
+        <div class="col-md-12">
           <div id="map-wrapper"><div id="map"></div></div> 
         </div>
       </div>
-      <div><hr></div>
+      <hr>
 
 
       <!-- chart row -->
       <div class = "row">
-       <div class = "well col-lg-6">
+        <div class = "well well1 col-lg-6">
 
           <div class="col-lg-2">
             <h5>Year:</h5>
@@ -133,33 +134,30 @@
               </select>
             </div>
           </div>
-
         </div>
       
 
-        <div class = "well col-lg-6">
-          <div class="col-lg-6">
-            <h5>Year:</h5>
-            <select id="selDatasetYEAR" onchange="optionChangedYEAR(this.value)">
-              <option>2016</option>
-              <option>2017</option>
-              <option>2018</option>
-              <option>2019</option>
-            </select>
-          </div>
+        <div class = "well col-lg-5">
+          <h5>Year:</h5>
+          <select id="selDatasetYEAR" onchange="optionChangedYEAR(this.value)">
+            <option>2016</option>
+            <option>2017</option>
+            <option>2018</option>
+            <option>2019</option>
+          </select>
         </div>
-    </div>
+      </div>
 
-    <div class = "row">
+      <div class = "row">
       <div class="col-lg-6">
         <div id="chartLeft"></div>
       </div>
       <div class="col-lg-6">
         <div id="chartRight"></div>
       </div>
+      </div>
     </div>
-  </div>
-  </div>
+    </div>
   <div id="elementH"></div>
 
     <script type="text/javascript" src="static/js/config.js"></script>
