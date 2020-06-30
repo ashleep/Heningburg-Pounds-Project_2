@@ -49,25 +49,42 @@ function createMap(markers, heat) {
 }
 
 function createMarker(marker, data){
+  var blueMarker = L.AwesomeMarkers.icon({
+    icon: 'road',
+    markerColor: 'blue'
+  });
+  var greenMarker = L.AwesomeMarkers.icon({
+    icon: 'road',
+    markerColor: 'green'
+  });
+  var orangeMarker = L.AwesomeMarkers.icon({
+    icon: 'road',
+    markerColor: 'orange'
+  });
+  var redMarker = L.AwesomeMarkers.icon({
+    icon: 'road',
+    markerColor: 'red'
+  });
+
   if (data.Severity == 1) {
     marker.addLayer(L.marker([data.Lat, data.Lng], {
-      color: "blue"
-    }).bindPopup(data.Description));
+      icon: blueMarker
+    }).bindPopup(`<p>${data.Description}<br />Severity: 1</p>`));
   }
   else if (data.Severity == 2) {
     marker.addLayer(L.marker([data.Lat, data.Lng], {
-      color: "green"
-    }).bindPopup(data.Description));
+      icon: greenMarker
+    }).bindPopup(`<p>${data.Description}<br />Severity: 2</p>`));
   }
   else if (data.Severity == 3) {
     marker.addLayer(L.marker([data.Lat, data.Lng], {
-      color: "yellow"
-    }).bindPopup(data.Description));
+      icon: orangeMarker
+    }).bindPopup(`<p>${data.Description}<br />Severity: 3</p>`));
   }
   else if (data.Severity == 4) {
     marker.addLayer(L.marker([data.Lat, data.Lng], {
-      color: "red"
-    }).bindPopup(data.Description));
+      icon: redMarker
+    }).bindPopup(`<p>${data.Description}<br />Severity: 4</p>`));
   }
 }
 
@@ -141,19 +158,19 @@ var file = "static/data/main.csv";
       // Add our marker cluster layer to the map
       // myMap.addLayer(markers);
       var heat2016 = L.heatLayer(heat1, {
-        radius: 50,
+        radius: 30,
         blur: 35
       });
       var heat2017 = L.heatLayer(heat2, {
-        radius: 50,
+        radius: 30,
         blur: 35
       });
       var heat2018 = L.heatLayer(heat3, {
-        radius: 50,
+        radius: 30,
         blur: 35
       });
       var heat2019 = L.heatLayer(heat4, {
-        radius: 50,
+        radius: 30,
         blur: 35
       });
       console.log(data[0]);
