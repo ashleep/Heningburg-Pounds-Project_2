@@ -289,7 +289,17 @@ var file = "static/data/main.csv";
 
 
       function init(){
+        //initialize cities
+        var cityList = selectorInfo.find(stateObj => stateObj.stateName == 'AL').cityName.sort();
 
+        var selectCity_list = d3.select("#selDatasetCITY");
+        selectCity_list.html("<option></option>");
+
+        cityList.forEach(Object=>{
+            var option = selectCity_list.append("option");
+            option.text(Object);
+
+        });  
 
         // initialize to AL since it is first in the alphabet
         var dataArray = formatDataState();
@@ -323,13 +333,51 @@ var file = "static/data/main.csv";
 
         var dataArray2 = formatDataYear();
 
-        var trace2 = {
+        console.log(dataArray2);
+
+        var traceSev1 = {
             type: "bar",
             x: listStates,
-            y: dataArray2,
+            y: dataArray2[0],
+            name: 'Severity 1',
+            marker:{
+              color: 'rgb(0,0,255)'
+            }
         };
 
+        var traceSev2 = {
+          type: "bar",
+          x: listStates,
+          y: dataArray2[1],
+          name: 'Severity 2',
+          marker:{
+            color:'rgb(60,255,60)'
+          }
+        };    
+
+        var traceSev3 = {
+          type: "bar",
+          x: listStates,
+          y: dataArray2[2],
+          name: 'Severity 3',
+          marker:{
+            color:'rgb(255,255,60)'
+          }
+        };
+
+        var traceSev4 = {
+          type: "bar",
+          x: listStates,
+          y: dataArray2[3],
+          name: 'Severity 4',
+          marker:{
+            color:'rgb(255,0,0)'
+          }
+        };
+
+
         var layout2 = {
+            barmode : 'stack',
             xaxis: {
               title: {
                 text: 'State'
@@ -340,9 +388,10 @@ var file = "static/data/main.csv";
                 text: 'Count of Accidents'
               }
             }
-          };
+        };
 
-        Plotly.newPlot("chartRight", [trace2], layout2);     
+        severityData = [traceSev4,traceSev3,traceSev2,traceSev1];
+        Plotly.newPlot("chartRight", severityData, layout2);     
 
       };
 
@@ -379,20 +428,47 @@ var file = "static/data/main.csv";
 
         var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
 
-        var yValues = [];
+        var yValuesSev1 = [];
+        var yValuesSev2 = [];
+        var yValuesSev3 = [];
+        var yValuesSev4 = [];
 
 
         listStates.forEach(element=>{
             
-            var numAccidents = dataByYear.filter(accidentObj => accidentObj.State === element).length;
+            var numAccidents = dataByYear.filter(accidentObj => accidentObj.State === element);
 
-            yValues.push(numAccidents);
+            yValuesSev1.push(numAccidents.filter(accidentObj => accidentObj.Severity == 1).length);
+            yValuesSev2.push(numAccidents.filter(accidentObj => accidentObj.Severity == 2).length);
+            yValuesSev3.push(numAccidents.filter(accidentObj => accidentObj.Severity == 3).length);
+            yValuesSev4.push(numAccidents.filter(accidentObj => accidentObj.Severity == 4).length);
 
         });
 
-        return yValues;
+
+
+        return [yValuesSev1,yValuesSev2,yValuesSev3,yValuesSev4];
 
       };
+
+      //listen for print pdf click then print to PDF
+      var button = d3.select(".btn");
+
+      button.on("click", function(){
+
+        console.log("button clicked");
+
+        var doc = new jsPDF();
+        
+        doc.fromHTML($('body').get(0),15,15,{
+          'width' : 500
+        },
+        function(){
+          doc.save('VehicularAccidentDashboard.pdf');
+        });        
+
+      });
+
     }
   });
 
