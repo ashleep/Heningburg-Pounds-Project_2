@@ -48,6 +48,29 @@ function createMap(markers, heat) {
   }).addTo(map);
 }
 
+function createMarker(marker, data){
+  if (data.Severity == 1) {
+    marker.addLayer(L.marker([data.Lat, data.Lng], {
+      color: "blue"
+    }).bindPopup(data.Description));
+  }
+  else if (data.Severity == 2) {
+    marker.addLayer(L.marker([data.Lat, data.Lng], {
+      color: "green"
+    }).bindPopup(data.Description));
+  }
+  else if (data.Severity == 3) {
+    marker.addLayer(L.marker([data.Lat, data.Lng], {
+      color: "yellow"
+    }).bindPopup(data.Description));
+  }
+  else if (data.Severity == 4) {
+    marker.addLayer(L.marker([data.Lat, data.Lng], {
+      color: "red"
+    }).bindPopup(data.Description));
+  }
+}
+
 
 // Assemble API query URL
 var file = "static/data/main.csv";
@@ -85,26 +108,30 @@ var file = "static/data/main.csv";
         if (lat && lng) {
           if (data[i].Year == 2016) {
             // Add a new marker to the cluster group and bind a pop-up
-            markers1.addLayer(L.marker([lat, lng])
-              .bindPopup(data[i].Description));
+            createMarker(markers1, data[i]);
+            // markers1.addLayer(L.marker([lat, lng])
+            //   .bindPopup(data[i].Description));
             heat1.push([lat, lng]);
           }
           else if (data[i].Year == 2017) {
             // Add a new marker to the cluster group and bind a pop-up
-            markers2.addLayer(L.marker([lat, lng])
-              .bindPopup(data[i].Description));
+            createMarker(markers2, data[i]);
+            // markers2.addLayer(L.marker([lat, lng])
+            //   .bindPopup(data[i].Description));
             heat2.push([lat, lng]);
           }
           else if (data[i].Year == 2018) {
             // Add a new marker to the cluster group and bind a pop-up
-            markers3.addLayer(L.marker([lat, lng])
-              .bindPopup(data[i].Description));
+            createMarker(markers3, data[i]);
+            // markers3.addLayer(L.marker([lat, lng])
+            //   .bindPopup(data[i].Description));
             heat3.push([lat, lng]);
           }
           else if (data[i].Year == 2019) {
             // Add a new marker to the cluster group and bind a pop-up
-            markers4.addLayer(L.marker([lat, lng])
-              .bindPopup(data[i].Description));
+            createMarker(markers4, data[i]);
+            // markers4.addLayer(L.marker([lat, lng])
+            //   .bindPopup(data[i].Description));
             heat4.push([lat, lng]);
           }
         }
