@@ -14,13 +14,13 @@
     <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
     integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
     crossorigin=""></script>
+
     <!-- Ionicon Stylesheet -->
     <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
 
     <!-- Awesome Markers Script and stylesheet -->
     <link rel="stylesheet" href="static/css/leaflet.awesome-markers.css">
     <script src="static/js/leaflet.awesome-markers.js"></script>
-
 
     <!-- Marker Cluster JS & CSS -->
     <script type="text/javascript" src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
@@ -33,18 +33,23 @@
     <!-- Plotly -->
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-    <!-- jsPDF library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+    <!-- D3 -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
 
+    <!-- Extra JS Library Library -->
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tail.select@0.5.15/css/bootstrap3/tail.select-primary.css" />
+  
 
   </head>
   <body>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/tail.select@0.5.15/js/tail.select-full.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/tail.select@0.5.15/langs/tail.select-all.js"></script>
 
     <div id="content">
-
+  
     <div class="container">
       <div class = "col-md-10">
-        <h2>US Vehicle Accidents Dashboard</h2>
+        <h1><strong>Vehicle Accidents Dashboard</strong></h2>
         <p>By Vincent Heningburg and Ashlee Pounds</p>
       </div>
       
@@ -67,79 +72,83 @@
       <div class = "row">
         <div class = "well well1 col-lg-6">
 
-          <div class="col-lg-2">
+          <!-- <div class="col-lg-2"> -->
             <h5>Year:</h5>
-            <select id="selDatasetYEARLEFT" onchange="optionChangedYEARLEFT(this.value)">
-              <option>2016</option>
-              <option>2017</option>
-              <option>2018</option>
-              <option>2019</option>
+            <select class="select" id="selDatasetYEARLEFT" onchange="optionChangedYEARLEFT(this.value)">
+                <option>2016</option>
+                <option>2017</option>
+                <option>2018</option>
+                <option>2019</option>
             </select>
-          </div>
+            </select>
+          <!-- </div> -->
     
-          <div class="col-lg-2">
+          <!-- <div class="col-lg-2"> -->
             <div id="leftSelector">
               <h5>State:</h5>
-              <select id="selDatasetSTATE" onchange="optionChangedSTATE(this.value)">
-                <option>AL</option>
-                <option>AR</option>
-                <option>AZ</option>
-                <option>CA</option>
-                <option>CO</option>
-                <option>CT</option>
-                <option>DC</option>
-                <option>DE</option>
-                <option>FL</option>
-                <option>GA</option>
-                <option>IA</option>
-                <option>ID</option>
-                <option>IL</option>
-                <option>IN</option>
-                <option>KS</option>
-                <option>KY</option>
-                <option>LA</option>
-                <option>MA</option>
-                <option>MD</option>
-                <option>ME</option>
-                <option>MI</option>
-                <option>MN</option>
-                <option>MO</option>
-                <option>MS</option>
-                <option>MT</option>
-                <option>NC</option>
-                <option>ND</option>
-                <option>NE</option>
-                <option>NH</option>
-                <option>NJ</option>
-                <option>NM</option>
-                <option>NV</option>
-                <option>NY</option>
-                <option>OH</option>
-                <option>OK</option>
-                <option>OR</option>
-                <option>PA</option>
-                <option>RI</option>
-                <option>SC</option>
-                <option>TN</option>
-                <option>TX</option>
-                <option>UT</option>
-                <option>VA</option>
-                <option>VT</option>
-                <option>WA</option>
-                <option>WI</option>
-                <option>WV</option>
-                <option>WY</option>
+              <select class="select-search" id="selDatasetSTATE" onchange="optionChangedSTATE(this.value)">
+                <optgroup label="State">
+                  <option>AL</option>
+                  <option>AR</option>
+                  <option>AZ</option>
+                  <option>CA</option>
+                  <option>CO</option>
+                  <option>CT</option>
+                  <option>DC</option>
+                  <option>DE</option>
+                  <option>FL</option>
+                  <option>GA</option>
+                  <option>IA</option>
+                  <option>ID</option>
+                  <option>IL</option>
+                  <option>IN</option>
+                  <option>KS</option>
+                  <option>KY</option>
+                  <option>LA</option>
+                  <option>MA</option>
+                  <option>MD</option>
+                  <option>ME</option>
+                  <option>MI</option>
+                  <option>MN</option>
+                  <option>MO</option>
+                  <option>MS</option>
+                  <option>MT</option>
+                  <option>NC</option>
+                  <option>ND</option>
+                  <option>NE</option>
+                  <option>NH</option>
+                  <option>NJ</option>
+                  <option>NM</option>
+                  <option>NV</option>
+                  <option>NY</option>
+                  <option>OH</option>
+                  <option>OK</option>
+                  <option>OR</option>
+                  <option>PA</option>
+                  <option>RI</option>
+                  <option>SC</option>
+                  <option>TN</option>
+                  <option>TX</option>
+                  <option>UT</option>
+                  <option>VA</option>
+                  <option>VT</option>
+                  <option>WA</option>
+                  <option>WI</option>
+                  <option>WV</option>
+                  <option>WY</option>
+                </optgroup>
               </select>
             </div>
-          </div>
+          <!-- </div> -->
 
-          <div class="col-lg-2">
+          <!-- <div class="col-lg-2"> -->
             <div id="citySelector">
               <h5>City:</h5>
-              <select id="selDatasetCITY" onchange="optionChangedCITY(this.value)">
+              <select class ="select" id="selDatasetCITY" onchange="optionChangedCITY(this.value)">
+              <option></option>
               </select>
             </div>
-          </div>
+          <!-- </div> -->
         </div>
       
 
@@ -164,19 +173,17 @@
       </div>
     </div>
     </div>
-  <div id="elementH"></div>
-
+  
+    <!-- Our JS Files -->
     <script type="text/javascript" src="static/js/config.js"></script>
-    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
-    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src="static/js/logic.js"></script>
+    
     <!-- Leaflet heatmap plugin-->
     <script type="text/javascript" src="static/js/leaflet-heat.js"></script>
 
-
-     <!-- Bootstrap -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>
