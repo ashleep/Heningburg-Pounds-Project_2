@@ -328,9 +328,15 @@ var file = "static/data/main.csv";
 
       function optionChangedYEAR() {
 
+
         var yValues = formatDataYear();
 
-        Plotly.restyle("chartRight", "y", [yValues]);
+        var update={
+          'y':yValues
+        }
+        Plotly.restyle("chartRight", update, [0,1,2,3]);
+
+        
       };
 
 
@@ -436,12 +442,12 @@ var file = "static/data/main.csv";
             }
         };
 
-        severityData = [traceSev4,traceSev3,traceSev2,traceSev1];
+        severityData = [traceSev1,traceSev2,traceSev3,traceSev4];
         Plotly.newPlot("chartRight", severityData, layout2);     
 
       };
 
-      // create function to return cleaned data on state choice
+      // create function to return cleaned data on left selectors choice
       function formatDataState(){
 
         var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
@@ -449,17 +455,27 @@ var file = "static/data/main.csv";
         var stateDrop = d3.select("#selDatasetSTATE").node().value;
 
         var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
-    
-        
+
         // filter data for state
         var stateData = dataByYear.filter(accidentObj => accidentObj.State === stateDrop);
+
+
+        var cityDrop = d3.select("#selDatasetCITY").node().value;
+
+        if(cityDrop === ""){
+          var cityData = stateData;
+        }
+        else{
+          //filter data for city
+          var cityData = stateData.filter(accidentObj => accidentObj.City === cityDrop);
+        }
 
         // initialize data to zeros
         var xValues = ["12a","1a", "2a", "3a","4a","5a", "6a", "7a","8a","9a", "10a", "11a","12p","1p", "2p", "3p","4p","5p", "6p", "7p","8p","9p", "10p", "11p"]
         var yValues = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
         // parse data to get hour of each accident and increase count of y value
-        stateData.forEach(Obj=>{
+        cityData.forEach(Obj=>{
 
             yValues[Obj.Hour] += 1;
         });
@@ -468,6 +484,7 @@ var file = "static/data/main.csv";
 
       };
 
+      //created function to return cleaned data on year choice
       function formatDataYear(){
 
         var yearDrop = d3.select("#selDatasetYEAR").node().value;
@@ -490,8 +507,6 @@ var file = "static/data/main.csv";
             yValuesSev4.push(numAccidents.filter(accidentObj => accidentObj.Severity == 4).length);
 
         });
-
-
 
         return [yValuesSev1,yValuesSev2,yValuesSev3,yValuesSev4];
 
