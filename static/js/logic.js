@@ -46,6 +46,35 @@ function createMap(markers, heat) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: true
   }).addTo(map);
+
+  // Set up the legend
+  var legend = L.control({ position: "bottomright" });
+  legend.onAdd = function() {
+    var div = L.DomUtil.create("div", "info legend");
+    var limits = [1,2,3,4];
+    var colors = ['blue', 'green', 'orange', 'red'];
+    var labels = [];
+
+    // Add min & max
+    var legendInfo = "<h2>Severity</h2>" +
+      "<div class=\"labels\">" +
+        "<div class=\"min\">" + limits[0] + "</div>" +
+        "<div class=\"max\">" + limits[limits.length - 1] + "</div>" +
+      "</div>";
+
+    div.innerHTML = legendInfo;
+
+    limits.forEach(function(limit, index) {
+      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+    });
+  
+    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
+    return div;
+  };
+
+  // Adding legend to the map
+  legend.addTo(map);
+
 }
 
 function createMarker(marker, data){
