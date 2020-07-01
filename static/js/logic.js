@@ -6,6 +6,16 @@
 //   zoom: 4,
 // });
 
+tail.select(".select");
+
+tail.select(".select-search", {search: true});
+
+var selectCity_list = tail.select("#selDatasetCITY");
+selectCity_list.options.add(
+  "blank option",""
+); 
+
+
 function createMap(markers, heat) {
 
   // Create the tile layer that will be the background of our map
@@ -52,7 +62,7 @@ function createMap(markers, heat) {
   legend.onAdd = function() {
     var div = L.DomUtil.create("div", "info legend");
     var limits = [1,2,3,4];
-    var colors = ['blue', 'green', 'orange', 'red'];
+    var colors = ['rgb(54,164,213)', 'rgb(109,168,36)','rgb(237,146,46)','rgb(211,61,42)'];
     var labels = [];
 
     // Add min & max
@@ -344,12 +354,18 @@ var file = "static/data/main.csv";
         //initialize cities
         var cityList = selectorInfo.find(stateObj => stateObj.stateName == 'AL').cityName.sort();
 
-        var selectCity_list = d3.select("#selDatasetCITY");
-        selectCity_list.html("<option></option>");
 
+        var selectCity_list = tail.select("#selDatasetCITY");
+
+        
+        selectCity_list.options.add(
+          "blank option",""
+        );  
+
+          var i=1;
         cityList.forEach(Object=>{
-            var option = selectCity_list.append("option");
-            option.text(Object);
+          selectCity_list.options.add(i,Object);  
+          i+=1;
 
         });  
 
@@ -381,8 +397,6 @@ var file = "static/data/main.csv";
 
         Plotly.newPlot("chartLeft", [trace], layout);
 
-
-
         var dataArray2 = formatDataYear();
 
         console.log(dataArray2);
@@ -393,7 +407,7 @@ var file = "static/data/main.csv";
             y: dataArray2[0],
             name: 'Severity 1',
             marker:{
-              color: 'rgb(0,0,255)'
+              color: 'rgb(54,164,213)'
             }
         };
 
@@ -403,7 +417,7 @@ var file = "static/data/main.csv";
           y: dataArray2[1],
           name: 'Severity 2',
           marker:{
-            color:'rgb(60,255,60)'
+            color:'rgb(109,168,36)'
           }
         };    
 
@@ -413,17 +427,17 @@ var file = "static/data/main.csv";
           y: dataArray2[2],
           name: 'Severity 3',
           marker:{
-            color:'rgb(255,255,60)'
+            color:'rgb(237,146,46)'
           }
         };
-
+        
         var traceSev4 = {
           type: "bar",
           x: listStates,
           y: dataArray2[3],
           name: 'Severity 4',
           marker:{
-            color:'rgb(255,0,0)'
+            color:'rgb(211,61,42)'
           }
         };
 
@@ -484,6 +498,7 @@ var file = "static/data/main.csv";
 
       };
 
+
       //created function to return cleaned data on year choice
       function formatDataYear(){
 
@@ -516,17 +531,7 @@ var file = "static/data/main.csv";
       var button = d3.select(".btn");
 
       button.on("click", function(){
-
-        console.log("button clicked");
-
-        var doc = new jsPDF();
-        
-        doc.fromHTML($('body').get(0),15,15,{
-          'width' : 500
-        },
-        function(){
-          doc.save('VehicularAccidentDashboard.pdf');
-        });        
+        window.print();
 
       });
 
