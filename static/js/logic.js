@@ -6,14 +6,26 @@
 //   zoom: 4,
 // });
 
-tail.select(".select");
+tail.select(".select",{
+  multiselect:false,
+  width:"85%"
+});
 
-tail.select(".select-search", {search: true});
+tail.select(".select-search", {
+  search: true,
+  width:"90%"
+});
 
-var selectCity_list = tail.select("#selDatasetCITY");
-selectCity_list.options.add(
-  "blank option",""
-); 
+var cityInitList = tail.select("#selDatasetCITY");
+
+cityInitList.options.add({
+  "State Wide":{
+    key: "State Wide",
+    value:"State Wide"
+  }
+});
+
+
 
 
 function createMap(markers, heat) {
@@ -289,15 +301,31 @@ var file = "static/data/main.csv";
 
         var cityList = selectorInfo.find(stateObj => stateObj.stateName == stateDrop).cityName.sort();
 
-        var selectCity_list = d3.select("#selDatasetCITY");
-        selectCity_list.html("<option></option>");
+        
+        var selectCity_list = tail.select("#selDatasetCITY");
+        selectCity_list.reload();
+        
+        
+
+        selectCity_list.options.add({
+          "State Wide":{
+            key: "State Wide",
+            value:"State Wide"
+          }
+        });
+        
 
         cityList.forEach(Object=>{
-            var option = selectCity_list.append("option");
-            option.text(Object);
-
-        });   
+          selectCity_list.options.add({
+            Object:{
+              key: Object,
+              value:Object
+            }
+          }); 
+        });
+        //selectCity_list.reload();
       };
+
 
       d3.selectAll("#selDatasetCITY").on('change', optionChangedCITY);
 
@@ -306,13 +334,14 @@ var file = "static/data/main.csv";
         var yearDrop = d3.select("#selDatasetYEARLEFT").node().value;
         var stateDrop = d3.select("#selDatasetSTATE").node().value;
         var cityDrop = d3.select("#selDatasetCITY").node().value;
+        console.log(cityDrop);
 
         var dataByYear = data.filter(accidentObj => accidentObj.Year === yearDrop);
 
         // filter data for state
         var stateData = dataByYear.filter(accidentObj => accidentObj.State === stateDrop);
 
-        if(cityDrop === ""){
+        if(cityDrop == "State Wide"){
             var cityData = stateData;
         }
         else{
@@ -354,18 +383,15 @@ var file = "static/data/main.csv";
         //initialize cities
         var cityList = selectorInfo.find(stateObj => stateObj.stateName == 'AL').cityName.sort();
 
-
         var selectCity_list = tail.select("#selDatasetCITY");
 
-        
-        selectCity_list.options.add(
-          "blank option",""
-        );  
-
-          var i=1;
         cityList.forEach(Object=>{
-          selectCity_list.options.add(i,Object);  
-          i+=1;
+          selectCity_list.options.add({
+            Object:{
+              key: Object,
+              value:Object
+            }
+          }); 
 
         });  
 
@@ -476,7 +502,7 @@ var file = "static/data/main.csv";
 
         var cityDrop = d3.select("#selDatasetCITY").node().value;
 
-        if(cityDrop === ""){
+        if(cityDrop == "State Wide"){
           var cityData = stateData;
         }
         else{
@@ -527,14 +553,7 @@ var file = "static/data/main.csv";
 
       };
 
-      //listen for print pdf click then print to PDF
-      var button = d3.select(".btn");
-
-      button.on("click", function(){
-        window.print();
-
-      });
-
+      
     }
   });
 
