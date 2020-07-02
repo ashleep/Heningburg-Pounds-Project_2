@@ -38,7 +38,7 @@
 
     <!-- Extra JS Library Library -->
     <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tail.select@0.5.15/css/bootstrap3/tail.select-primary.css" />
-  
+    
 
   </head>
   <body>
@@ -52,10 +52,7 @@
         <h1><strong>Vehicle Accidents Dashboard</strong></h2>
         <p>By Vincent Heningburg and Ashlee Pounds</p>
       </div>
-      
-      <div class = "col-md-2">
-        <button type="button" class="btn btn-secondary">Click to save PDF</button>
-      </div>
+
     </div>
    
     <div class="container">
@@ -72,18 +69,18 @@
       <div class = "row">
         <div class = "well well1 col-lg-6">
 
-          <!-- <div class="col-lg-2"> -->
+          <div class="col-lg-4">
             <h5>Year:</h5>
-            <select class="select" id="selDatasetYEARLEFT" onchange="optionChangedYEARLEFT(this.value)">
+            <select class="select select-small" id="selDatasetYEARLEFT" onchange="optionChangedYEARLEFT(this.value)">
                 <option>2016</option>
                 <option>2017</option>
                 <option>2018</option>
                 <option>2019</option>
             </select>
             </select>
-          <!-- </div> -->
+          </div>
     
-          <!-- <div class="col-lg-2"> -->
+          <div class="col-lg-4">
             <div id="leftSelector">
               <h5>State:</h5>
               <select class="select-search" id="selDatasetSTATE" onchange="optionChangedSTATE(this.value)">
@@ -139,26 +136,28 @@
                 </optgroup>
               </select>
             </div>
-          <!-- </div> -->
+          </div>
 
-          <!-- <div class="col-lg-2"> -->
+          <div class="col-lg-4">
             <div id="citySelector">
               <h5>City:</h5>
-              <select class ="select" id="selDatasetCITY" onchange="optionChangedCITY(this.value)">
-              <option></option>
+              <select class ="select-search" id="selDatasetCITY" onchange="optionChangedCITY(this.value)">
+              
               </select>
             </div>
-          <!-- </div> -->
+          </div>
         </div>
       
 
         <div class = "well col-lg-5">
           <h5>Year:</h5>
-          <select id="selDatasetYEAR" onchange="optionChangedYEAR(this.value)">
-            <option>2016</option>
-            <option>2017</option>
-            <option>2018</option>
-            <option>2019</option>
+          <select class="select select-small" id="selDatasetYEAR" onchange="optionChangedYEAR(this.value)">
+            <optgroup label="State">
+              <option>2016</option>
+              <option>2017</option>
+              <option>2018</option>
+              <option>2019</option>
+            </optgroup>
           </select>
         </div>
       </div>
