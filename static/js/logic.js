@@ -75,6 +75,7 @@ function createMap(markers, heat) {
     var div = L.DomUtil.create("div", "info legend");
     var limits = [1,2,3,4];
     var colors = ['rgb(54,164,213)', 'rgb(109,168,36)','rgb(237,146,46)','rgb(211,61,42)'];
+    var images = ['static/images/severity1_2marker.png', 'static/images/severity2_2marker.png', 'static/images/severity3_2marker.png', 'static/images/severity4_2marker.png'];
     var labels = [];
 
     // Add min & max
@@ -86,8 +87,11 @@ function createMap(markers, heat) {
 
     div.innerHTML = legendInfo;
 
+    // limits.forEach(function(limit, index) {
+    //   labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+    // });
     limits.forEach(function(limit, index) {
-      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
+      labels.push("<img src=" + images[index] + " alt='' style='width:30px;height:40px;'/>");
     });
   
     div.innerHTML += "<ul>" + labels.join("") + "</ul>";
